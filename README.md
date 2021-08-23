@@ -1,1 +1,0 @@
-# ADS112C04_testes

@@ -48,8 +48,14 @@ void setup(void)
       ;
   }
 
+ //RAW MODE
+ //GAIN 128
+ //DATA RATE 2000SPS
   mySensor.configureADCmode(ADS122C04_RAW_MODE); // Configure the PT100 for raw mode
-
+  mySensor.setOperatingMode(ADS122C04_OP_MODE_TURBO); 
+  mySensor.enablePGA(ADS122C04_PGA_ENABLED); // Disable the Programmable Gain Amplifier
+  mySensor.setGain(ADS122C04_GAIN_128);
+  mySensor.setDataRate(ADS122C04_DATA_RATE_1000SPS);
 }
 
 void loop()
@@ -58,19 +64,20 @@ void loop()
   int32_t raw_v = mySensor.readRawVoltage();
 
   // Convert to Volts (method 1)
-  float volts_1 = ((float)raw_v) * 244.14e-9;
+  float volts_1 = ((float)raw_v) ;
 
   // Convert to Volts (method 2)
   float volts_2 = ((float)raw_v) / 4096000;
 
   // Print the temperature and voltage
   //Serial.print(F("The raw voltage is 0x"));
- // Serial.print(raw_v, HEX);
+  //Serial.print(raw_v, HEX);
   //Serial.print(F("\t"));
-  Serial.print(volts_1, 7); // Print the voltage with 7 decimal places
+  Serial.print(volts_1); // Print the voltage with 7 decimal places
+  Serial.println();
   //Serial.print(F("V\t"));
   //Serial.print(volts_2, 7); // Print the voltage with 7 decimal places
   //Serial.println(F("V"));
 
-  delay(250); //Don't pound the I2C bus too hard
+  delay(10); //Don't pound the I2C bus too hard
 }
